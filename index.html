@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بیوگرافی بزرگان</title>
+    <style>
+        @import url('https://v1.fontapi.ir/css/Vazir');
+        :root {
+            --primary: #4f46e5;
+            --bg: #f3f4f6;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --radius: 16px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazir', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 80px; }
+        
+        /* Navbar */
+        nav {
+            position: fixed; bottom: 0; width: 100%; background: var(--surface);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-around;
+            padding: 12px 0; z-index: 100; border-top-left-radius: 20px; border-top-right-radius: 20px;
+        }
+        nav button {
+            background: none; border: none; font-size: 13px; color: var(--text-light);
+            display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;
+            transition: 0.3s ease; font-weight: 500;
+        }
+        nav button.active { color: var(--primary); transform: translateY(-4px); }
+        nav button svg { width: 26px; height: 26px; fill: currentColor; transition: 0.3s; }
+
+        /* Sections */
+        .section { display: none; padding: 20px; animation: fadeIn 0.4s ease forwards; opacity: 0; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Home */
+        .search-box {
+            background: var(--surface); padding: 20px; border-radius: var(--radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; position: sticky; top: 15px; z-index: 10;
+        }
+        .search-box input {
+            width: 100%; padding: 14px 15px; border: 1.5px solid var(--border); border-radius: 12px;
+            font-size: 15px; outline: none; transition: all 0.3s ease; background: var(--bg);
+        }
+        .search-box input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        
+        .categories-scroll {
+            display: flex; overflow-x: auto; gap: 12px; padding-bottom: 10px; margin-bottom: 20px;
+            scrollbar-width: none; scroll-behavior: smooth;
+        }
+        .categories-scroll::-webkit-scrollbar { display: none; }
+        .cat-chip {
+            background: #e0e7ff; color: var(--primary); padding: 10px 20px; border-radius: 30px;
+            white-space: nowrap; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s; border: none;
+        }
+        .cat-chip.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
+
+        .grid { display: flex; flex-direction: column; gap: 16px; }
+        .card {
+            background: var(--surface); border-radius: var(--radius); overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; align-items: center; padding: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:active { transform: scale(0.97); }
+        .card img { width: 80px; height: 80px; border-radius: 25px; object-fit: cover; margin-left: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card-info { flex: 1; }
+        .card-info h3 { font-size: 17px; margin-bottom: 6px; color: var(--text); }
+        .card-info span { font-size: 11px; color: var(--primary); background: #e0e7ff; padding: 4px 10px; border-radius: 12px; font-weight: bold; }
+        .card-info p { font-size: 13px; color: var(--text-light); margin-top: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.8; }
+
+        /* Forms */
+        .form-group { margin-bottom: 20px; background: var(--surface); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: var(--text); }
+        input[type="text"], input[type="url"], textarea, select {
+            width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; margin-bottom: 15px; background: var(--bg); transition: 0.3s;
+        }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); background: #fff; }
+        button.btn {
+            background: var(--primary); color: white; border: none; padding: 14px; width: 100%;
+            border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        button.btn:active { transform: scale(0.98); }
+        .btn-danger { background: #ef4444; margin-top: 10px; }
+        .btn-danger:active { background: #dc2626; }
+
+        /* Lists in Admin */
+        .admin-list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg); padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; font-size: 14px;
+        }
+        .action-btns button { border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; margin-right: 5px; }
+        .btn-edit { background: #f59e0b; color: white; }
+        .btn-del { background: #ef4444; color: white; }
+
+        /* About */
+        .about-box { background: var(--surface); padding: 30px 20px; border-radius: var(--radius); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .about-box h2 { color: var(--primary); margin-bottom: 25px; font-size: 22px; }
+        .about-item { background: var(--bg); padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
+        .about-item strong { color: var(--text); font-size: 13px; opacity: 0.8; }
+        .about-item span { font-size: 16px; font-weight: bold; color: var(--primary); }
+        .about-desc { text-align: right; margin-top: 25px; line-height: 2; color: var(--text-light); font-size: 14px; background: var(--bg); padding: 20px; border-radius: 12px; }
+        
+        h2.title { margin-bottom: 15px; font-size: 18px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        h2.title::before { content: ''; display: inline-block; width: 6px; height: 18px; background: var(--primary); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <button onclick="switchTab('home')" id="nav-home" class="active">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            خانه
+        </button>
+        <button onclick="switchTab('admin')" id="nav-admin">
+            <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+            مدیریت
+        </button>
+        <button onclick="switchTab('about')" id="nav-about">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            درباره ما
+        </button>
+    </nav>
+
+    <div id="home" class="section active">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="جستجوی افراد بر اساس نام یا بیوگرافی..." oninput="filterPeople()">
+        </div>
+        <div class="categories-scroll" id="categoryFilters"></div>
+        <div class="grid" id="peopleList"></div>
+    </div>
+
+    <div id="admin" class="section">
+        <h2 class="title">افزودن / ویرایش شخص</h2>
+        <div class="form-group">
+            <input type="hidden" id="editId">
+            <label>نام و نام خانوادگی:</label>
+            <input type="text" id="pName" placeholder="مثال: استیو جابز">
+            
+            <label>آدرس عکس (URL):</label>
+            <input type="url" id="pImage" placeholder="https://example.com/image.jpg">
+            
+            <label>دسته بندی:</label>
+            <select id="pCategory"></select>
+            
+            <label>بیوگرافی کامل:</label>
+            <textarea id="pBio" rows="4" placeholder="توضیحات و بیوگرافی شخص..."></textarea>
+            
+            <button class="btn" onclick="savePerson()" id="btnSavePerson">ثبت شخص جدید</button>
+            <button class="btn btn-danger" onclick="cancelEdit()" id="btnCancelEdit" style="display:none;">لغو ویرایش</button>
+        </div>
+
+        <h2 class="title">لیست افراد سایت</h2>
+        <div class="form-group" id="adminPeopleList"></div>
+
+        <h2 class="title">مدیریت دسته‌بندی‌ها</h2>
+        <div class="form-group">
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <input type="text" id="newCategory" placeholder="نام دسته‌بندی جدید" style="margin-bottom: 0;">
+                <button class="btn" onclick="addCategory()" style="width: auto; padding: 0 20px;">افزودن</button>
+            </div>
+            <div id="adminCatList"></div>
+        </div>
+
+        <h2 class="title">تنظیمات درباره ما</h2>
+        <div class="form-group">
+            <label>نام مدیر سایت:</label>
+            <input type="text" id="aManager">
+            
+            <label>نام توسعه دهنده:</label>
+            <input type="text" id="aDev">
+            
+            <label>متن درباره سایت:</label>
+            <textarea id="aDesc" rows="4"></textarea>
+            
+            <button class="btn" onclick="saveAbout()">ذخیره تغییرات</button>
+        </div>
+    </div>
+
+    <div id="about" class="section">
+        <div class="about-box">
+            <h2>درباره پلتفرم ما</h2>
+            <div class="about-item">
+                <strong>مدیر سایت</strong>
+                <span id="viewManager"></span>
+            </div>
+            <div class="about-item">
+                <strong>توسعه دهنده و طراح</strong>
+                <span id="viewDev"></span>
+            </div>
+            <div class="about-desc" id="viewDesc"></div>
+        </div>
+    </div>
+
+    <script>
+        const defaultData = {
+            categories: ['دین و روحانیت', 'اقتصاد و تجارت', 'سینما و تئاتر', 'علم و فناوری', 'شعر و ادبیات'],
+            people: [
+                { id: 1, name: 'ابوعلی سینا', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Avicenna_Portrait_on_Silver_Vase_-_Iran_Museum.jpg/220px-Avicenna_Portrait_on_Silver_Vase_-_Iran_Museum.jpg', cat: 'علم و فناوری', bio: 'پزشک، ریاضیدان، فیلسوف و منجم بزرگ ایرانی که کتاب قانون او سال‌ها مرجع پزشکی بود.' },
+                { id: 2, name: 'حافظ شیرازی', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Hafez_Tomb_in_Shiraz_%281%29.jpg/220px-Hafez_Tomb_in_Shiraz_%281%29.jpg', cat: 'شعر و ادبیات', bio: 'شاعر بزرگ سده هشتم ایران، ملقب به لسان‌الغیب که دیوان اشعار او شهرت جهانی دارد.' },
+                { id: 3, name: 'علی نصیریان', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ali_Nasirian_1397.jpg/220px-Ali_Nasirian_1397.jpg', cat: 'سینما و تئاتر', bio: 'بازیگر و کارگردان برجسته سینما، تئاتر و تلویزیون ایران.' }
+            ],
+            about: { manager: 'امیر محمد', dev: 'تیم توسعه فرانت‌اند', desc: 'این پلتفرم یک وب‌سایت مدرن و واکنش‌گرا (Responsive) برای معرفی و مرور بیوگرافی چهره‌های ماندگار و افراد مهم در عرصه‌های مختلف است. طراحی کاملا بهینه برای کاربران موبایل انجام شده تا تجربه‌ای روان و سریع داشته باشند.' }
+        };
+
+        let appData = JSON.parse(localStorage.getItem('modernBioApp')) || defaultData;
+        let currentFilter = 'all';
+
+        function saveData() {
+            localStorage.setItem('modernBioApp', JSON.stringify(appData));
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            if(tabId === 'home') renderHome();
+            if(tabId === 'admin') renderAdmin();
+            if(tabId === 'about') renderAboutView();
+        }
+
+        function renderHome() {
+            const catsContainer = document.getElementById('categoryFilters');
+            catsContainer.innerHTML = `<button class="cat-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">همه دسته‌ها</button>`;
+            appData.categories.forEach(cat => {
+                catsContainer.innerHTML += `<button class="cat-chip ${currentFilter === cat ? 'active' : ''}" onclick="setFilter('${cat}')">${cat}</button>`;
+            });
+            filterPeople();
+        }
+
+        function setFilter(cat) {
+            currentFilter = cat;
+            renderHome();
+        }
+
+        function filterPeople() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const list = document.getElementById('peopleList');
+            list.innerHTML = '';
+            
+            const filtered = appData.people.filter(p => {
+                const matchCat = currentFilter === 'all' || p.cat === currentFilter;
+                const matchText = p.name.toLowerCase().includes(q) || p.bio.toLowerCase().includes(q);
+                return matchCat && matchText;
+            }).reverse();
+
+            if(filtered.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--text-light);"><svg style="width:50px; opacity:0.5; margin-bottom:10px" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><p>متاسفانه شخصی با این مشخصات یافت نشد!</p></div>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                const imgUrl = p.image || 'https://via.placeholder.com/150?text=بدون+عکس';
+                list.innerHTML += `
+                    <div class="card">
+                        <img src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=خطای+عکس'">
+                        <div class="card-info">
+                            <h3>${p.name}</h3>
+                            <span>${p.cat}</span>
+                            <p>${p.bio}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderAdmin() {
+            const sel = document.getElementById('pCategory');
+            sel.innerHTML = '';
+            appData.categories.forEach(cat => { sel.innerHTML += `<option value="${cat}">${cat}</option>`; });
+
+            const pList = document.getElementById('adminPeopleList');
+            pList.innerHTML = '';
+            [...appData.people].reverse().forEach(p => {
+                pList.innerHTML += `
+                    <div class="admin-list-item">
+                        <span style="font-weight:bold">${p.name}</span>
+                        <div class="action-btns">
+                            <button class="btn-edit" onclick="editPerson(${p.id})">ویرایش</button>
+                            <button class="btn-del" onclick="deletePerson(${p.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const cList = document.getElementById('adminCatList');
+            cList.innerHTML = '';
+            appData.categories.forEach((cat, index) => {
+                cList.innerHTML += `
+                    <div class="admin-list-item">
+                        <span>${cat}</span>
+                        <button class="btn-del" style="border:none; padding:6px 12px; border-radius:8px; cursor:pointer;" onclick="deleteCategory(${index})">حذف</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('aManager').value = appData.about.manager;
+            document.getElementById('aDev').value = appData.about.dev;
+            document.getElementById('aDesc').value = appData.about.desc;
+        }
+
+        function savePerson() {
+            const idInput = document.getElementById('editId').value;
+            const name = document.getElementById('pName').value.trim();
+            const image = document.getElementById('pImage').value.trim();
+            const cat = document.getElementById('pCategory').value;
+            const bio = document.getElementById('pBio').value.trim();
+
+            if(!name || !bio) { alert('وارد کردن نام و بیوگرافی اجباری است!'); return; }
+
+            if(idInput) {
+                const p = appData.people.find(x => x.id == idInput);
+                if(p) { p.name = name; p.image = image; p.cat = cat; p.bio = bio; }
+            } else {
+                appData.people.push({ id: Date.now(), name, image, cat, bio });
+            }
+            
+            saveData();
+            cancelEdit();
+            renderAdmin();
+            alert('اطلاعات با موفقیت ثبت شد.');
+        }
+
+        function editPerson(id) {
+            const p = appData.people.find(x => x.id == id);
+            if(p) {
+                document.getElementById('editId').value = p.id;
+                document.getElementById('pName').value = p.name;
+                document.getElementById('pImage').value = p.image;
+                document.getElementById('pCategory').value = p.cat;
+                document.getElementById('pBio').value = p.bio;
+                document.getElementById('btnSavePerson').textContent = 'بروزرسانی اطلاعات';
+                document.getElementById('btnCancelEdit').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function cancelEdit() {
+            document.getElementById('editId').value = '';
+            document.getElementById('pName').value = '';
+            document.getElementById('pImage').value = '';
+            document.getElementById('pBio').value = '';
+            document.getElementById('btnSavePerson').textContent = 'ثبت شخص جدید';
+            document.getElementById('btnCancelEdit').style.display = 'none';
+        }
+
+        function deletePerson(id) {
+            if(confirm('آیا از حذف این شخص اطمینان دارید؟')) {
+                appData.people = appData.people.filter(x => x.id !== id);
+                saveData();
+                renderAdmin();
+            }
+        }
+
+        function addCategory() {
+            const input = document.getElementById('newCategory');
+            const val = input.value.trim();
+            if(val && !appData.categories.includes(val)) {
+                appData.categories.push(val);
+                input.value = '';
+                saveData();
+                renderAdmin();
+            } else if(appData.categories.includes
